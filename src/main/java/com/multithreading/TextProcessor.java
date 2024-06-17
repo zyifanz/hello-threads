@@ -18,15 +18,10 @@ class Capitalize implements Runnable {
 }
 
 public class TextProcessor {
-    private final String input;
-    private final Thread[] threads;
 
-    public TextProcessor(String input) {
-        this.input = input;
-        this.threads = new Thread[input.length()];
-    }
+    public String process(String input) throws InterruptedException {
+        Thread[] threads = new Thread[input.length()];
 
-    public String process() throws InterruptedException {
         char[] chars = input.toCharArray();
 
         for (int i = 0; i < chars.length; i++) {
