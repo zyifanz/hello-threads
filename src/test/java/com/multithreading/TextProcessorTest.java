@@ -9,7 +9,7 @@ public class TextProcessorTest {
     @Test
     public void testProcess() throws InterruptedException {
         String input = "hello";
-        TextProcessor processor = new TextProcessor();
+        TextProcessor processor = new TextProcessor(3);
         String result = processor.process(input);
         assertEquals("HELLO", result);
     }
@@ -17,7 +17,7 @@ public class TextProcessorTest {
     @Test
     public void testEmptyString() throws InterruptedException {
         String input = "";
-        TextProcessor processor = new TextProcessor();
+        TextProcessor processor = new TextProcessor(3);
         String result = processor.process(input);
         assertEquals("", result);
     }
@@ -25,7 +25,7 @@ public class TextProcessorTest {
     @Test
     public void testSingleCharacter() throws InterruptedException {
         String input = "a";
-        TextProcessor processor = new TextProcessor();
+        TextProcessor processor = new TextProcessor(3);
         String result = processor.process(input);
         assertEquals("A", result);
     }
@@ -33,7 +33,7 @@ public class TextProcessorTest {
     @Test
     public void testLongString() throws InterruptedException {
         String input = "abcdefghijklmnopqrstuvwxyz";
-        TextProcessor processor = new TextProcessor();
+        TextProcessor processor = new TextProcessor(3);
         String result = processor.process(input);
         assertEquals("ABCDEFGHIJKLMNOPQRSTUVWXYZ", result);
     }
@@ -41,7 +41,7 @@ public class TextProcessorTest {
     @Test
     public void testStringWithSymbols() throws InterruptedException {
         String input = "hello_world";
-        TextProcessor processor = new TextProcessor();
+        TextProcessor processor = new TextProcessor(3);
         String result = processor.process(input);
         assertEquals("HELLO_WORLD", result);
     }
