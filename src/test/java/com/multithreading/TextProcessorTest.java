@@ -37,4 +37,12 @@ public class TextProcessorTest {
         String result = processor.process();
         assertEquals("ABCDEFGHIJKLMNOPQRSTUVWXYZ", result);
     }
+
+    @Test
+    public void testStringWithSymbols() throws InterruptedException {
+        String input = "hello_world";
+        TextProcessor processor = new TextProcessor(input);
+        String result = processor.process();
+        assertEquals("HELLO_WORLD", result);
+    }
 }
