@@ -12,9 +12,10 @@ public class App {
         TextProcessor processor = new TextProcessor();
 
         try {
-            System.out.println("Capitalized String: " + processor.process(input));
+            String output = processor.process(input);
+            System.out.println("Capitalized String: " + output);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            processor.stop();
             System.err.println("Processing interrupted. Exiting...");
         }
     }

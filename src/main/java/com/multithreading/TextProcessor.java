@@ -1,38 +1,67 @@
 package com.multithreading;
 
-class Capitalize implements Runnable {
-    private final char[] chars;
-    private final int index;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Capitalize(char[] chars, int index) {
-        this.chars = chars;
-        this.index = index;
+class Capitalize implements Runnable {
+    private volatile boolean isRunning = true;
+    private char character;
+
+    public Capitalize(char character) {
+        this.character = character;
     }
 
     @Override
     public void run() {
-        synchronized (chars) {
-            chars[index] = Character.toUpperCase(chars[index]);
+        if (isRunning) {
+            this.character = Character.toUpperCase(character);
         }
+    }
+
+    public void stop() {
+        this.isRunning = false;
+    }
+
+    public char getChar() {
+        return character;
     }
 }
 
 public class TextProcessor {
 
+    private final List<Thread> threads;
+    private final List<Capitalize> capitalizeTasks;
+
+    TextProcessor() {
+        this.capitalizeTasks = new ArrayList<>();
+        this.threads = new ArrayList<>();
+    }
+
     public String process(String input) throws InterruptedException {
-        Thread[] threads = new Thread[input.length()];
+        int inputLength = input.length();
 
         char[] chars = input.toCharArray();
+        char[] capitalizedChars = new char[inputLength];
 
-        for (int i = 0; i < chars.length; i++) {
-            threads[i] = new Thread(new Capitalize(chars, i));
-            threads[i].start();
+        for (int i = 0; i < inputLength; i++) {
+            capitalizeTasks.add(new Capitalize(chars[i]));
+            threads.add(new Thread(capitalizeTasks.getLast()));
+            threads.getLast().start();
         }
 
         for (Thread thread : threads) {
             thread.join();
         }
+        for (int i = 0; i < inputLength; i++) {
+            capitalizedChars[i] = capitalizeTasks.get(i).getChar();
+        }
 
-        return new String(chars);
+        return new String(capitalizedChars);
+    }
+
+    public void stop() {
+        for (Capitalize task : capitalizeTasks) {
+            task.stop();
+        }
     }
 }
